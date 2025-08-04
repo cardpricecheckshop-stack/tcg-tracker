@@ -1,3 +1,4 @@
+// src/Home.jsx
 import React, { useState } from "react";
 import {
   LineChart,
@@ -9,9 +10,9 @@ import {
 } from "recharts";
 
 const portfolioData = [
-  { date: "1D", value: 200000 },
-  { date: "7D", value: 204000 },
-  { date: "1M", value: 271171.49 },
+  { date: "1D", value: 204000 },
+  { date: "7D", value: 204800 },
+  { date: "1M", value: 271171 },
 ];
 
 const valuableItems = [
@@ -23,6 +24,7 @@ const valuableItems = [
 
 export default function Home() {
   const [search, setSearch] = useState("");
+  const [selectedItem, setSelectedItem] = useState(null);
 
   const filteredItems = valuableItems.filter((item) =>
     item.name.toLowerCase().includes(search.toLowerCase())
@@ -30,16 +32,12 @@ export default function Home() {
 
   return (
     <main style={{ padding: "1rem", maxWidth: 600, margin: "0 auto" }}>
-      <div style={{ marginBottom: "2rem" }}>
-        <h1 style={{ fontWeight: 700 }}>
-          Portfolio: <span style={{ color: "#108981" }}>Main</span>
+      <div style={{ fontWeight: 700 }}>
+        <h1>
+          Portfolio: <span style={{ color: "#10B981" }}>Main</span>
         </h1>
-        <h2 style={{ fontSize: "2rem", fontWeight: 700 }}>
-          ${271171.49.toLocaleString()}
-        </h2>
-        <p style={{ color: "#108981" }}>
-          +$65,882.13 in the last 30 days
-        </p>
+        <h2 style={{ fontSize: "2rem", fontWeight: 700 }}>$271,171.49</h2>
+        <p style={{ color: "#10B981" }}>+65,882.13 in the last 30 days</p>
       </div>
 
       <div
@@ -54,11 +52,13 @@ export default function Home() {
           <LineChart data={portfolioData}>
             <XAxis dataKey="date" />
             <YAxis domain={[200000, 280000]} />
-            <Tooltip formatter={(value) => `$${value.toLocaleString()}`} />
+            <Tooltip
+              formatter={(value) => `$${value.toLocaleString()}`}
+            />
             <Line
               type="monotone"
               dataKey="value"
-              stroke="#108981"
+              stroke="#10B981"
               strokeWidth={2}
               dot={false}
             />
@@ -87,7 +87,7 @@ export default function Home() {
         {filteredItems.map((item, index) => (
           <div
             key={index}
-            onClick={() => alert(`You clicked: ${item.name}`)}
+            onClick={() => setSelectedItem(item)}
             style={{
               marginBottom: "1rem",
               borderBottom: "1px solid #eee",
@@ -104,15 +104,48 @@ export default function Home() {
                 alignItems: "center",
               }}
             >
-              <div style={{ color: "#108981", fontWeight: "bold" }}>
+              <div style={{ color: "#10B981", fontWeight: 700 }}>
                 ${item.value.toLocaleString()}
               </div>
-              <div style={{ fontSize: "0.875rem", color: "#108981" }}>
+              <div style={{ fontSize: "0.875rem", color: "#10B981" }}>
                 0.00%
               </div>
             </div>
           </div>
         ))}
+
+        {selectedItem && (
+          <div
+            style={{
+              border: "1px solid #ddd",
+              padding: "1rem",
+              marginTop: "1rem",
+              borderRadius: "8px",
+              backgroundColor: "#fff",
+            }}
+          >
+            <h4 style={{ marginBottom: "0.5rem" }}>{selectedItem.name}</h4>
+            <p>
+              <strong>Type:</strong> Sealed
+            </p>
+            <p>
+              <strong>Value:</strong> ${selectedItem.value.toLocaleString()}
+            </p>
+            <button
+              onClick={() => setSelectedItem(null)}
+              style={{
+                marginTop: "0.5rem",
+                padding: "0.5rem 1rem",
+                background: "#eee",
+                border: "none",
+                borderRadius: "4px",
+                cursor: "pointer",
+              }}
+            >
+              Close
+            </button>
+          </div>
+        )}
       </div>
     </main>
   );
