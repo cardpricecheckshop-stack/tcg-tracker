@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -49,11 +50,36 @@ export default function Home() {
     { name: 'Graded Cards', value: 17400 },
   ];
 
+  const [searchQuery, setSearchQuery] = useState('');
+
   return (
     <div style={{ padding: '2rem', fontFamily: 'sans-serif' }}>
-      <h1 style={{ fontSize: '2rem', fontWeight: 'bold' }}>
-        Portfolio: <span style={{ color: '#16a34a' }}>Main</span>
-      </h1>
+      {/* Top bar: title + search */}
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginBottom: '1rem',
+        }}
+      >
+        <h1 style={{ fontSize: '2rem', fontWeight: 'bold' }}>
+          Portfolio: <span style={{ color: '#16a34a' }}>Main</span>
+        </h1>
+
+        <input
+          type="text"
+          placeholder="Search..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          style={{
+            padding: '0.5rem 1rem',
+            borderRadius: '8px',
+            border: '1px solid #ccc',
+            width: '200px',
+          }}
+        />
+      </div>
 
       <h2 style={{ fontSize: '2rem', fontWeight: 'bold', marginTop: '0.5rem' }}>
         ${totalPortfolio.toLocaleString()}
