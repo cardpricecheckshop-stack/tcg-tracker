@@ -1,3 +1,5 @@
+const [search, setSearch] = useState("");
+const [selectedItem, setSelectedItem] = useState(null);
 import React, { useState } from "react";
 
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
@@ -61,16 +63,25 @@ export default function Home() {
           }}
         />
 
-        {filteredItems.map((item, index) => (
-          <div key={index} style={{ marginBottom: "1rem", borderBottom: "1px solid #eee", paddingBottom: "0.75rem" }}>
-            <div style={{ fontWeight: "bold" }}>{item.name}</div>
-            <div style={{ fontSize: "0.875rem", color: "#666" }}>Sealed</div>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-              <div style={{ color: "#10B981", fontWeight: "bold" }}>${item.value.toLocaleString()}</div>
-              <div style={{ fontSize: "0.875rem", color: "#10B981" }}>0.00%</div>
-            </div>
-          </div>
-        ))}
+        filteredItems.map((item, index) => (
+  <div
+    key={index}
+    onClick={() => setSelectedItem(item)}
+    style={{
+      marginBottom: "1rem",
+      borderBottom: "1px solid #eee",
+      paddingBottom: "0.75rem",
+      cursor: "pointer"
+    }}
+  >
+    <div style={{ fontWeight: "bold" }}>{item.name}</div>
+    <div style={{ fontSize: "0.875rem", color: "#666" }}>Sealed</div>
+    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+      <div style={{ color: "#108981", fontWeight: "bold" }}>${item.value.toLocaleString()}</div>
+      <div style={{ fontSize: "0.875rem", color: "#108981" }}>0.00%</div>
+    </div>
+  </div>
+))
       </div>
     </main>
   );
