@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Card, CardContent } from "@/components/ui/card";
+
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 
 const portfolioData = [
