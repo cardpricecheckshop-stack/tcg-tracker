@@ -1,58 +1,76 @@
-
-import React from "react";
+import React, { useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 
-const data = [
-  { name: "1D", value: 205000 },
-  { name: "7D", value: 210000 },
-  { name: "1M", value: 271171 },
-  { name: "3M", value: 280000 },
-  { name: "6M", value: 283000 },
-  { name: "MAX", value: 285000 },
+const portfolioData = [
+  { date: "1D", value: 204000 },
+  { date: "7D", value: 205000 },
+  { date: "1M", value: 271171.49 },
 ];
 
-const mostValuable = [
-  { name: "Call of Legends Booster Box", price: "$21K", change: "0.00%" },
-  { name: "Evolving Skies Booster Box Case", price: "$12.8K", change: "+1.15%" },
-  { name: "Burning Shadows Booster Box Case", price: "$10K", change: "0.00%" },
-  { name: "Charizard (Staff Prerelease)", price: "$9.9K", change: "0.00%" },
+const valuableItems = [
+  { name: "Call of Legends Booster Box", value: 21000 },
+  { name: "Evolving Skies Booster Box Case", value: 12800 },
+  { name: "Burning Shadows Booster Box Case", value: 10000 },
+  { name: "Charizard (Staff Prerelease)", value: 9900 },
 ];
 
-export default function Home() {
+export default function HomePage() {
+  const [search, setSearch] = useState("");
+
+  const filteredItems = valuableItems.filter((item) =>
+    item.name.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
-    <main style={{ padding: '1rem', maxWidth: 600, margin: '0 auto' }}>
-      <div>
-        <h1 style={{ fontWeight: 700 }}>Portfolio: <span style={{ color: '#10B981' }}>Main</span></h1>
-        <h2 style={{ fontSize: '2rem', fontWeight: 700 }}>$271,171.49</h2>
-        <p style={{ color: '#10B981' }}>+65,882.13 in the last 30 days</p>
+    <div className="p-6 space-y-6">
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-bold">Overview</h1>
+        <span className="text-green-600 font-semibold">USD</span>
       </div>
 
-      <div style={{ background: '#f9f9f9', padding: '1rem', borderRadius: '1rem' }}>
-        <ResponsiveContainer width="100%" height={200}>
-          <LineChart data={data}>
-            <XAxis dataKey="name" />
-            <YAxis hide />
-            <Tooltip />
-            <Line type="monotone" dataKey="value" stroke="#10B981" strokeWidth={2} />
+      <div className="text-4xl font-bold">$271,171.49</div>
+      <div className="text-green-500">+$65,882.13 in the last 30 days</div>
+
+      <div className="h-64 w-full">
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart data={portfolioData}>
+            <XAxis dataKey="date" />
+            <YAxis domain={[200000, 280000]} />
+            <Tooltip formatter={(value) => `$${value.toLocaleString()}`} />
+            <Line type="monotone" dataKey="value" stroke="#10B981" strokeWidth={3} dot={false} />
           </LineChart>
         </ResponsiveContainer>
       </div>
 
-      <div>
-        <h3 style={{ marginTop: '2rem', fontSize: '1.2rem', fontWeight: 600 }}>Most Valuable</h3>
-        {mostValuable.map((item, i) => (
-          <div key={i} style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #ddd', paddingBottom: 6, marginTop: 12 }}>
-            <div>
-              <div style={{ fontWeight: 500 }}>{item.name}</div>
-              <div style={{ fontSize: 12, color: '#666' }}>Sealed</div>
-            </div>
-            <div style={{ textAlign: 'right' }}>
-              <div style={{ fontWeight: 600 }}>{item.price}</div>
-              <div style={{ fontSize: 12, color: '#10B981' }}>{item.change}</div>
-            </div>
-          </div>
-        ))}
+      <div className="pt-4">
+        <h2 className="text-xl font-semibold mb-2">Most Valuable</h2>
+
+        <input
+          type="text"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Search cards..."
+          className="mb-4 w-full p-2 border border-gray-300 rounded-md"
+        />
+
+        <div className="grid gap-4 md:grid-cols-2">
+          {filteredItems.map((item, index) => (
+            <Card key={index} className="shadow-md">
+              <CardContent className="p-4 flex justify-between items-center">
+                <div className="space-y-1">
+                  <div className="font-semibold">{item.name}</div>
+                  <div className="text-muted-foreground text-sm">Sealed</div>
+                </div>
+                <div className="text-right">
+                  <div className="text-lg font-bold">${item.value.toLocaleString()}</div>
+                  <div className="text-green-500 text-sm">0.00%</div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
       </div>
-    </main>
+    </div>
   );
 }
