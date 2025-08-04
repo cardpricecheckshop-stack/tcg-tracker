@@ -15,7 +15,7 @@ const valuableItems = [
   { name: "Charizard (Staff Prerelease)", value: 9900 },
 ];
 
-export default function HomePage() {
+export default function Home() {
   const [search, setSearch] = useState("");
 
   const filteredItems = valuableItems.filter((item) =>
@@ -23,54 +23,56 @@ export default function HomePage() {
   );
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Overview</h1>
-        <span className="text-green-600 font-semibold">USD</span>
+    <main style={{ padding: "1rem", maxWidth: 600, margin: "0 auto" }}>
+      <div>
+        <h1 style={{ fontWeight: 700 }}>
+          Portfolio: <span style={{ color: "#10B981" }}>Main</span>
+        </h1>
+        <h2 style={{ fontSize: "2rem", fontWeight: 700 }}>$271,171.49</h2>
+        <p style={{ color: "#10B981" }}>+65,882.13 in the last 30 days</p>
       </div>
 
-      <div className="text-4xl font-bold">$271,171.49</div>
-      <div className="text-green-500">+$65,882.13 in the last 30 days</div>
-
-      <div className="h-64 w-full">
-        <ResponsiveContainer width="100%" height="100%">
+      <div style={{ background: "#f9f9f9", padding: "1rem", borderRadius: "1rem", marginTop: "1.5rem" }}>
+        <ResponsiveContainer width="100%" height={200}>
           <LineChart data={portfolioData}>
             <XAxis dataKey="date" />
             <YAxis domain={[200000, 280000]} />
             <Tooltip formatter={(value) => `$${value.toLocaleString()}`} />
-            <Line type="monotone" dataKey="value" stroke="#10B981" strokeWidth={3} dot={false} />
+            <Line type="monotone" dataKey="value" stroke="#10B981" strokeWidth={2} dot={false} />
           </LineChart>
         </ResponsiveContainer>
       </div>
 
-      <div className="pt-4">
-        <h2 className="text-xl font-semibold mb-2">Most Valuable</h2>
+      <div style={{ marginTop: "2rem" }}>
+        <h3 style={{ fontWeight: 600 }}>Most Valuable</h3>
 
         <input
           type="text"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search cards..."
-          className="mb-4 w-full p-2 border border-gray-300 rounded-md"
+          style={{
+            padding: "0.5rem",
+            marginTop: "0.5rem",
+            marginBottom: "1rem",
+            width: "100%",
+            border: "1px solid #ccc",
+            borderRadius: "8px",
+          }}
         />
 
-        <div className="grid gap-4 md:grid-cols-2">
-          {filteredItems.map((item, index) => (
-            <Card key={index} className="shadow-md">
-              <CardContent className="p-4 flex justify-between items-center">
-                <div className="space-y-1">
-                  <div className="font-semibold">{item.name}</div>
-                  <div className="text-muted-foreground text-sm">Sealed</div>
-                </div>
-                <div className="text-right">
-                  <div className="text-lg font-bold">${item.value.toLocaleString()}</div>
-                  <div className="text-green-500 text-sm">0.00%</div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+        {filteredItems.map((item, index) => (
+          <div key={index} style={{ marginBottom: "1rem", borderBottom: "1px solid #eee", paddingBottom: "0.75rem" }}>
+            <div style={{ fontWeight: "bold" }}>{item.name}</div>
+            <div style={{ fontSize: "0.875rem", color: "#666" }}>Sealed</div>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <div style={{ color: "#10B981", fontWeight: "bold" }}>${item.value.toLocaleString()}</div>
+              <div style={{ fontSize: "0.875rem", color: "#10B981" }}>0.00%</div>
+            </div>
+          </div>
+        ))}
       </div>
-    </div>
+    </main>
   );
 }
+     
