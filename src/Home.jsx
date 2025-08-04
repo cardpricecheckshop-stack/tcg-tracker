@@ -1,3 +1,5 @@
+// src/components/PortfolioSummary.tsx
+
 import React from 'react';
 
 interface CategorySummaryCardProps {
@@ -5,14 +7,12 @@ interface CategorySummaryCardProps {
   amount: number;
 }
 
-const CategorySummaryCard: React.FC<CategorySummaryCardProps> = ({ title, amount }) => {
-  return (
-    <div className="bg-gray-50 p-6 rounded-lg shadow w-full">
-      <h2 className="text-lg font-semibold">{title}</h2>
-      <p className="text-2xl font-bold text-green-500">${amount.toLocaleString()}</p>
-    </div>
-  );
-};
+const CategorySummaryCard: React.FC<CategorySummaryCardProps> = ({ title, amount }) => (
+  <div className="bg-gray-50 p-6 rounded-lg shadow w-full">
+    <h2 className="text-lg font-semibold mb-2">{title}</h2>
+    <p className="text-2xl font-bold text-green-500">${amount.toLocaleString()}</p>
+  </div>
+);
 
 const PortfolioSummary: React.FC = () => {
   const sealedTotal = 43800;
@@ -27,6 +27,7 @@ const PortfolioSummary: React.FC = () => {
       <p className="text-2xl font-bold mb-1">${(sealedTotal + rawTotal + gradedTotal).toLocaleString()}</p>
       <p className="text-green-600 mb-6">+65,882.13 in the last 30 days</p>
 
+      {/* 3 Cards Side by Side */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <CategorySummaryCard title="Sealed Products" amount={sealedTotal} />
         <CategorySummaryCard title="Single Raws" amount={rawTotal} />
