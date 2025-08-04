@@ -1,19 +1,5 @@
 // /src/Home.jsx
-import React, { useState } from "react";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  Tooltip,
-  ResponsiveContainer,
-} from "recharts";
-
-const data = [
-  { date: "1D", value: 204000 },
-  { date: "7D", value: 204000 },
-  { date: "1M", value: 271171.49 },
-];
+import React from "react";
 
 const sealedProducts = [
   { name: "Call of Legends Booster Box", value: 21000 },
@@ -31,109 +17,68 @@ const gradedCards = [
   { name: "Blastoise CGC 9.5", value: 5400 },
 ];
 
+const getTotalValue = (items) =>
+  items.reduce((total, item) => total + item.value, 0);
+
 export default function Home() {
-  const [search, setSearch] = useState("");
-
-  const filterItems = (items) =>
-    items.filter((item) =>
-      item.name.toLowerCase().includes(search.toLowerCase())
-    );
-
   return (
-    <main style={{ padding: "1rem", maxWidth: 600, margin: "0 auto" }}>
-      <div>
+    <main style={{ padding: "2rem", maxWidth: 900, margin: "0 auto" }}>
+      <div style={{ marginBottom: "2rem" }}>
         <h1 style={{ fontWeight: 700 }}>
           Portfolio: <span style={{ color: "#10B981" }}>Main</span>
         </h1>
         <h2 style={{ fontSize: "2rem", fontWeight: 700 }}>
-          ${271171.49.toLocaleString()}
+          ${(getTotalValue(sealedProducts) +
+            getTotalValue(singleRaws) +
+            getTotalValue(gradedCards)
+          ).toLocaleString()}
         </h2>
         <p style={{ color: "#10B981" }}>+65,882.13 in the last 30 days</p>
       </div>
 
       <div
         style={{
-          background: "#f9f9f9",
-          padding: "1rem",
-          borderRadius: "1rem",
-          marginTop: "1.5rem",
+          display: "flex",
+          gap: "1rem",
+          justifyContent: "space-between",
+          flexWrap: "wrap",
         }}
       >
-        <ResponsiveContainer width="100%" height={200}>
-          <LineChart data={data}>
-            <XAxis dataKey="date" />
-            <YAxis domain={[200000, 280000]} />
-            <Tooltip
-              formatter={(value) => `$${value.toLocaleString()}`}
-              labelFormatter={(label) => `${label}`}
-            />
-            <Line
-              type="monotone"
-              dataKey="value"
-              stroke="#10B981"
-              strokeWidth={2}
-              dot={false}
-            />
-          </LineChart>
-        </ResponsiveContainer>
-      </div>
-
-      <div style={{ marginTop: "2rem" }}>
-        <h3 style={{ fontWeight: 600 }}>Category</h3>
-        <input
-          type="text"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder="Search cards..."
-          style={{
-            width: "100%",
-            padding: "0.8rem",
-            marginBottom: "1rem",
-            border: "1px solid #ccc",
-            borderRadius: "8px",
-          }}
+        <CategoryCard
+          title="Sealed Products"
+          total={getTotalValue(sealedProducts)}
         />
-
-        <Category title="Sealed Products" items={filterItems(sealedProducts)} />
-        <Category title="Single Raws" items={filterItems(singleRaws)} />
-        <Category title="Graded Cards" items={filterItems(gradedCards)} />
+        <CategoryCard title="Single Raws" total={getTotalValue(singleRaws)} />
+        <CategoryCard title="Graded Cards" total={getTotalValue(gradedCards)} />
       </div>
     </main>
   );
 }
 
-function Category({ title, items }) {
-  if (items.length === 0) return null;
-
+function CategoryCard({ title, total }) {
   return (
-    <div style={{ marginBottom: "2rem" }}>
-      <h4 style={{ fontSize: "1.1rem", fontWeight: "bold" }}>{title}</h4>
-      {items.map((item, index) => (
-        <div
-          key={index}
-          style={{
-            marginBottom: "1rem",
-            borderBottom: "1px solid #eee",
-            paddingBottom: "0.75rem",
-          }}
-        >
-          <div style={{ fontWeight: 600 }}>{item.name}</div>
-          <div style={{ fontSize: "0.9rem", color: "#666" }}>Sealed</div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              marginTop: "0.25rem",
-            }}
-          >
-            <div style={{ color: "#10B981", fontWeight: "bold" }}>
-              ${item.value.toLocaleString()}
-            </div>
-            <div style={{ fontSize: "0.875rem", color: "#10B981" }}>0.00%</div>
-          </div>
-        </div>
-      ))}
+    <div
+      style={{
+        flex: "1 1 30%",
+        backgroundColor: "#f9f9f9",
+        borderRadius: "12px",
+        padding: "1.5rem",
+        boxShadow: "0 1px 4px rgba(0,0,0,0.06)",
+        minWidth: "240px",
+      }}
+    >
+      <h3 style={{ fontSize: "1.1rem", fontWeight: 600, marginBottom: "0.5rem" }}>
+        {title}
+      </h3>
+      <p
+        style={{
+          fontSize: "1.5rem",
+          fontWeight: 700,
+          color: "#10B981",
+        }}
+      >
+        ${total.toLocaleString()}
+      </p>
     </div>
   );
 }
