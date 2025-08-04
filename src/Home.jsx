@@ -1,3 +1,4 @@
+// src/Home.jsx
 import { Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -71,20 +72,21 @@ export default function Home() {
         style={{
           display: 'flex',
           gap: '1rem',
-          flexWrap: 'wrap',
           justifyContent: 'space-between',
+          flexWrap: 'nowrap',
         }}
       >
         {categories.map((cat, i) => (
           <div
             key={i}
             style={{
-              flex: '1 1 calc(33.333% - 1rem)',
-              minWidth: '220px',
+              width: '100%',
+              maxWidth: '300px',
               backgroundColor: '#f9f9f9',
               borderRadius: '10px',
               padding: '1.25rem',
               textAlign: 'left',
+              flex: '1 1 0',
             }}
           >
             <h3 style={{ fontWeight: '600' }}>{cat.name}</h3>
