@@ -1,4 +1,3 @@
-// src/Home.jsx
 import { Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -24,6 +23,8 @@ export default function Home() {
         data: [201000, 215000, 271000],
         borderWidth: 2,
         tension: 0.3,
+        borderColor: '#16a34a',
+        pointBackgroundColor: '#16a34a',
       },
     ],
   };
@@ -49,14 +50,20 @@ export default function Home() {
   ];
 
   return (
-    <div style={{ padding: '2rem' }}>
-      <h1>
-        Portfolio: <span style={{ color: 'green' }}>Main</span>
+    <div style={{ padding: '2rem', fontFamily: 'sans-serif' }}>
+      <h1 style={{ fontSize: '2rem', fontWeight: 'bold' }}>
+        Portfolio: <span style={{ color: '#16a34a' }}>Main</span>
       </h1>
-      <h2>${totalPortfolio.toLocaleString()}</h2>
-      <p style={{ color: 'green' }}>+${delta30Days.toLocaleString()} in the last 30 days</p>
 
-      <div style={{ maxWidth: 600, marginTop: '2rem' }}>
+      <h2 style={{ fontSize: '2rem', fontWeight: 'bold', marginTop: '0.5rem' }}>
+        ${totalPortfolio.toLocaleString()}
+      </h2>
+
+      <p style={{ color: '#16a34a', marginBottom: '2rem' }}>
+        +${delta30Days.toLocaleString()} in the last 30 days
+      </p>
+
+      <div style={{ maxWidth: '100%', maxHeight: '300px', marginBottom: '2rem' }}>
         <Line data={chartData} options={chartOptions} />
       </div>
 
@@ -64,23 +71,24 @@ export default function Home() {
         style={{
           display: 'flex',
           gap: '1rem',
-          marginTop: '2rem',
           flexWrap: 'wrap',
+          justifyContent: 'space-between',
         }}
       >
         {categories.map((cat, i) => (
           <div
             key={i}
             style={{
-              flex: '1 1 250px',
-              background: '#f8f8f8',
-              padding: '1.5rem',
+              flex: '1 1 calc(33.333% - 1rem)',
+              minWidth: '220px',
+              backgroundColor: '#f9f9f9',
               borderRadius: '10px',
-              minWidth: '250px',
+              padding: '1.25rem',
+              textAlign: 'left',
             }}
           >
-            <h3>{cat.name}</h3>
-            <p style={{ color: 'green', fontSize: '1.5rem' }}>
+            <h3 style={{ fontWeight: '600' }}>{cat.name}</h3>
+            <p style={{ color: '#16a34a', fontSize: '1.5rem', fontWeight: 'bold' }}>
               ${cat.value.toLocaleString()}
             </p>
           </div>
