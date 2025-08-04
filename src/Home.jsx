@@ -1,12 +1,16 @@
-const [search, setSearch] = useState("");
-const [selectedItem, setSelectedItem] = useState(null);
 import React, { useState } from "react";
-
-import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
 
 const portfolioData = [
-  { date: "1D", value: 204000 },
-  { date: "7D", value: 205000 },
+  { date: "1D", value: 200000 },
+  { date: "7D", value: 204000 },
   { date: "1M", value: 271171.49 },
 ];
 
@@ -26,21 +30,38 @@ export default function Home() {
 
   return (
     <main style={{ padding: "1rem", maxWidth: 600, margin: "0 auto" }}>
-      <div>
+      <div style={{ marginBottom: "2rem" }}>
         <h1 style={{ fontWeight: 700 }}>
-          Portfolio: <span style={{ color: "#10B981" }}>Main</span>
+          Portfolio: <span style={{ color: "#108981" }}>Main</span>
         </h1>
-        <h2 style={{ fontSize: "2rem", fontWeight: 700 }}>$271,171.49</h2>
-        <p style={{ color: "#10B981" }}>+65,882.13 in the last 30 days</p>
+        <h2 style={{ fontSize: "2rem", fontWeight: 700 }}>
+          ${271171.49.toLocaleString()}
+        </h2>
+        <p style={{ color: "#108981" }}>
+          +$65,882.13 in the last 30 days
+        </p>
       </div>
 
-      <div style={{ background: "#f9f9f9", padding: "1rem", borderRadius: "1rem", marginTop: "1.5rem" }}>
+      <div
+        style={{
+          background: "#f9f9f9",
+          padding: "1rem",
+          borderRadius: "1rem",
+          marginTop: "1.5rem",
+        }}
+      >
         <ResponsiveContainer width="100%" height={200}>
           <LineChart data={portfolioData}>
             <XAxis dataKey="date" />
             <YAxis domain={[200000, 280000]} />
             <Tooltip formatter={(value) => `$${value.toLocaleString()}`} />
-            <Line type="monotone" dataKey="value" stroke="#10B981" strokeWidth={2} dot={false} />
+            <Line
+              type="monotone"
+              dataKey="value"
+              stroke="#108981"
+              strokeWidth={2}
+              dot={false}
+            />
           </LineChart>
         </ResponsiveContainer>
       </div>
@@ -63,28 +84,36 @@ export default function Home() {
           }}
         />
 
-        filteredItems.map((item, index) => (
-  <div
-    key={index}
-    onClick={() => alert(`You clicked: ${item.name}`)}
-    style={{
-      marginBottom: "1rem",
-      borderBottom: "1px solid #eee",
-      paddingBottom: "0.75rem",
-      cursor: "pointer"
-    }}
-  >
-    <div style={{ fontWeight: "bold" }}>{item.name}</div>
-    <div style={{ fontSize: "0.875rem", color: "#666" }}>Sealed</div>
-    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-      <div style={{ color: "#108981", fontWeight: "bold" }}>${item.value.toLocaleString()}</div>
-      <div style={{ fontSize: "0.875rem", color: "#108981" }}>0.00%</div>
-    </div>
-  </div>
-))
-
+        {filteredItems.map((item, index) => (
+          <div
+            key={index}
+            onClick={() => alert(`You clicked: ${item.name}`)}
+            style={{
+              marginBottom: "1rem",
+              borderBottom: "1px solid #eee",
+              paddingBottom: "0.75rem",
+              cursor: "pointer",
+            }}
+          >
+            <div style={{ fontWeight: "bold" }}>{item.name}</div>
+            <div style={{ fontSize: "0.875rem", color: "#666" }}>Sealed</div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <div style={{ color: "#108981", fontWeight: "bold" }}>
+                ${item.value.toLocaleString()}
+              </div>
+              <div style={{ fontSize: "0.875rem", color: "#108981" }}>
+                0.00%
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
     </main>
   );
 }
-     
