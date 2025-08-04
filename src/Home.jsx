@@ -1,84 +1,40 @@
-// /src/Home.jsx
-import React from "react";
+import React from 'react';
 
-const sealedProducts = [
-  { name: "Call of Legends Booster Box", value: 21000 },
-  { name: "Evolving Skies Booster Box Case", value: 12800 },
-  { name: "Burning Shadows Booster Box Case", value: 10000 },
-];
+const HomePage = () => {
+  // Dummy data for each category
+  const totalValue = {
+    sealed: 43800,
+    raw: 5500,
+    graded: 17400,
+  };
 
-const singleRaws = [
-  { name: "Charizard Base Set (Raw)", value: 3000 },
-  { name: "Pikachu Illustrator (Raw)", value: 2500 },
-];
-
-const gradedCards = [
-  { name: "Charizard PSA 10", value: 12000 },
-  { name: "Blastoise CGC 9.5", value: 5400 },
-];
-
-const getTotalValue = (items) =>
-  items.reduce((total, item) => total + item.value, 0);
-
-export default function Home() {
   return (
-    <main style={{ padding: "2rem", maxWidth: 900, margin: "0 auto" }}>
-      <div style={{ marginBottom: "2rem" }}>
-        <h1 style={{ fontWeight: 700 }}>
-          Portfolio: <span style={{ color: "#10B981" }}>Main</span>
-        </h1>
-        <h2 style={{ fontSize: "2rem", fontWeight: 700 }}>
-          ${(getTotalValue(sealedProducts) +
-            getTotalValue(singleRaws) +
-            getTotalValue(gradedCards)
-          ).toLocaleString()}
-        </h2>
-        <p style={{ color: "#10B981" }}>+65,882.13 in the last 30 days</p>
-      </div>
+    <div className="min-h-screen bg-white px-4 py-10 sm:px-8 md:px-16 lg:px-32">
+      <h1 className="text-3xl font-bold">
+        Portfolio: <span className="text-green-600">Main</span>
+      </h1>
 
-      <div
-        style={{
-          display: "flex",
-          gap: "1rem",
-          justifyContent: "space-between",
-          flexWrap: "wrap",
-        }}
-      >
-        <CategoryCard
-          title="Sealed Products"
-          total={getTotalValue(sealedProducts)}
-        />
-        <CategoryCard title="Single Raws" total={getTotalValue(singleRaws)} />
-        <CategoryCard title="Graded Cards" total={getTotalValue(gradedCards)} />
-      </div>
-    </main>
-  );
-}
+      <h2 className="text-4xl font-bold mt-4">${(totalValue.sealed + totalValue.raw + totalValue.graded).toLocaleString()}</h2>
+      <p className="text-green-600 mt-2">+65,882.13 in the last 30 days</p>
 
-function CategoryCard({ title, total }) {
-  return (
-    <div
-      style={{
-        flex: "1 1 30%",
-        backgroundColor: "#f9f9f9",
-        borderRadius: "12px",
-        padding: "1.5rem",
-        boxShadow: "0 1px 4px rgba(0,0,0,0.06)",
-        minWidth: "240px",
-      }}
-    >
-      <h3 style={{ fontSize: "1.1rem", fontWeight: 600, marginBottom: "0.5rem" }}>
-        {title}
-      </h3>
-      <p
-        style={{
-          fontSize: "1.5rem",
-          fontWeight: 700,
-          color: "#10B981",
-        }}
-      >
-        ${total.toLocaleString()}
-      </p>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
+        <div className="bg-gray-50 p-6 rounded-xl shadow-sm">
+          <h3 className="font-semibold text-lg mb-2">Sealed Products</h3>
+          <p className="text-green-600 font-bold text-xl">${totalValue.sealed.toLocaleString()}</p>
+        </div>
+
+        <div className="bg-gray-50 p-6 rounded-xl shadow-sm">
+          <h3 className="font-semibold text-lg mb-2">Single Raws</h3>
+          <p className="text-green-600 font-bold text-xl">${totalValue.raw.toLocaleString()}</p>
+        </div>
+
+        <div className="bg-gray-50 p-6 rounded-xl shadow-sm">
+          <h3 className="font-semibold text-lg mb-2">Graded Cards</h3>
+          <p className="text-green-600 font-bold text-xl">${totalValue.graded.toLocaleString()}</p>
+        </div>
+      </div>
     </div>
   );
-}
+};
+
+export default HomePage;
