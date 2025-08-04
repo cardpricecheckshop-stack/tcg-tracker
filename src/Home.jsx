@@ -64,7 +64,7 @@ export default function Home() {
         +${delta30Days.toLocaleString()} in the last 30 days
       </p>
 
-      <div style={{ maxWidth: '100%', maxHeight: '300px', marginBottom: '2rem' }}>
+      <div style={{ maxWidth: '50%', maxHeight: '200px', marginBottom: '2rem' }}>
         <Line data={chartData} options={chartOptions} />
       </div>
 
