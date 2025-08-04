@@ -71,22 +71,21 @@ export default function Home() {
       <div
         style={{
           display: 'flex',
+          flexWrap: 'nowrap',
           gap: '1rem',
           justifyContent: 'space-between',
-          flexWrap: 'nowrap',
         }}
       >
         {categories.map((cat, i) => (
           <div
             key={i}
             style={{
-              width: '100%',
-              maxWidth: '300px',
+              flex: 1,
+              maxWidth: '250px',
               backgroundColor: '#f9f9f9',
               borderRadius: '10px',
-              padding: '1.25rem',
-              textAlign: 'left',
-              flex: '1 1 0',
+              padding: '1rem',
+              minWidth: 0,
             }}
           >
             <h3 style={{ fontWeight: '600' }}>{cat.name}</h3>
