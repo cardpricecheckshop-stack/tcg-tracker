@@ -1,80 +1,91 @@
-// src/components/PortfolioSummary.tsx
-
-import React from 'react';
+// src/Home.jsx
 import { Line } from 'react-chartjs-2';
-import { Chart as ChartJS, LineElement, PointElement, LinearScale, CategoryScale } from 'chart.js';
+import {
+  Chart as ChartJS,
+  LineElement,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  Tooltip,
+  Legend,
+} from 'chart.js';
 
-ChartJS.register(LineElement, PointElement, LinearScale, CategoryScale);
+ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Tooltip, Legend);
 
-interface CategorySummaryCardProps {
-  title: string;
-  amount: number;
-}
+export default function Home() {
+  const totalPortfolio = 66700;
+  const delta30Days = 65882.13;
 
-const CategorySummaryCard: React.FC<CategorySummaryCardProps> = ({ title, amount }) => (
-  <div className="bg-gray-50 p-6 rounded-lg shadow w-full">
-    <h2 className="text-lg font-semibold mb-2">{title}</h2>
-    <p className="text-2xl font-bold text-green-500">${amount.toLocaleString()}</p>
-  </div>
-);
-
-const PortfolioSummary: React.FC = () => {
-  const sealedTotal = 43800;
-  const rawTotal = 5500;
-  const gradedTotal = 17400;
-
-  const total = sealedTotal + rawTotal + gradedTotal;
-
-  const graphData = {
+  const chartData = {
     labels: ['1D', '7D', '1M'],
     datasets: [
       {
         label: 'Portfolio Value',
-        data: [200000, 205000, total],
-        borderColor: 'rgb(34,197,94)', // Tailwind green-500
-        backgroundColor: 'rgba(34,197,94,0.2)',
-        tension: 0.4,
-        fill: false,
+        data: [201000, 215000, 271000],
+        borderWidth: 2,
+        tension: 0.3,
       },
     ],
   };
 
-  const graphOptions = {
+  const chartOptions = {
     responsive: true,
     plugins: {
       legend: { display: false },
     },
     scales: {
       y: {
-        beginAtZero: false,
         ticks: {
-          callback: (value: number) => `$${value.toLocaleString()}`,
+          callback: value => `$${value.toLocaleString()}`,
         },
       },
     },
   };
 
-  return (
-    <div className="max-w-screen-xl mx-auto px-4 py-10">
-      <h1 className="text-3xl font-bold mb-2">
-        Portfolio: <span className="text-green-600">Main</span>
-      </h1>
-      <p className="text-2xl font-bold mb-1">${total.toLocaleString()}</p>
-      <p className="text-green-600 mb-6">+65,882.13 in the last 30 days</p>
+  const categories = [
+    { name: 'Sealed Products', value: 43800 },
+    { name: 'Single Raws', value: 5500 },
+    { name: 'Graded Cards', value: 17400 },
+  ];
 
-      {/* Graph Section */}
-      <div className="bg-gray-50 p-4 rounded-lg mb-8">
-        <Line data={graphData} options={graphOptions} />
+  return (
+    <div style={{ padding: '2rem' }}>
+      <h1>
+        Portfolio: <span style={{ color: 'green' }}>Main</span>
+      </h1>
+      <h2>${totalPortfolio.toLocaleString()}</h2>
+      <p style={{ color: 'green' }}>+${delta30Days.toLocaleString()} in the last 30 days</p>
+
+      <div style={{ maxWidth: 600, marginTop: '2rem' }}>
+        <Line data={chartData} options={chartOptions} />
       </div>
 
-      {/* Category Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <CategorySummaryCard title="Sealed Products" amount={sealedTotal} />
-        <CategorySummaryCard title="Single Raws" amount={rawTotal} />
-        <CategorySummaryCard title="Graded Cards" amount={gradedTotal} />
+      <div
+        style={{
+          display: 'flex',
+          gap: '1rem',
+          marginTop: '2rem',
+          flexWrap: 'wrap',
+        }}
+      >
+        {categories.map((cat, i) => (
+          <div
+            key={i}
+            style={{
+              flex: '1 1 250px',
+              background: '#f8f8f8',
+              padding: '1.5rem',
+              borderRadius: '10px',
+              minWidth: '250px',
+            }}
+          >
+            <h3>{cat.name}</h3>
+            <p style={{ color: 'green', fontSize: '1.5rem' }}>
+              ${cat.value.toLocaleString()}
+            </p>
+          </div>
+        ))}
       </div>
     </div>
   );
-};
-
-export default PortfolioSummary;
+}
