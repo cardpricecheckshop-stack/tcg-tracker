@@ -66,7 +66,7 @@ export default function Home() {
         filteredItems.map((item, index) => (
   <div
     key={index}
-    onClick={() => setSelectedItem(item)}
+    onClick={() => alert(`You clicked: ${item.name}`)}
     style={{
       marginBottom: "1rem",
       borderBottom: "1px solid #eee",
@@ -82,6 +82,7 @@ export default function Home() {
     </div>
   </div>
 ))
+
       </div>
     </main>
   );
